@@ -17,18 +17,55 @@ enum Role {
   ADMIN
 }
 
-model User {
-  id String @id @default(uuid())
-  email String @unique 
-  username String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  role Role @default(USER)
+enum Verdict {
+  PENDING
+  AC
+  WA
+  TLE
+  MLE
+  RE
+  CE
 }
 
+model User {
+  id         String       @id @default(uuid())
+  email      String       @unique
+  password   String
+  username   String
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  role       Role         @default(USER)
+  submissons Submission[]
+}
 
 model Problem {
-  id String @id @default(uuid())
-  title String
+  id          String       @id @default(uuid())
+  title       String
   description String
+  isPublised  Boolean      @default(false)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  testCases   TestCase[]
+  submission  Submission[]
+}
+
+model TestCase {
+  id             String  @id @default(uuid())
+  input          String
+  expectedOutput String
+  problemId      String
+  isSample       Boolean @default(false)
+  problem        Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
+}
+
+model Submission {
+  id        String   @id @default(uuid())
+  problemId String
+  userId    String
+  code      String
+  language  String
+  verdict   Verdict  @default(PENDING)
+  createdAt DateTime @default(now())
+  problem   Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id])
 }
