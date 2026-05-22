@@ -7,3 +7,10 @@ export const signupSchema = z.object({
 })
 
 export type signupInput = z.infer<typeof signupSchema>;
+
+export const loginSchema = signupSchema.pick({
+    email: true,
+    password: true
+})
+
+export type loginInput = z.infer<typeof loginSchema>;
