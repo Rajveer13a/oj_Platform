@@ -1,15 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import { sendError } from "../utils/response.utils.js";
-import { verifyToken, type JwtPayload } from "../utils/jwt.utils.js";
+import { verifyToken } from "../utils/jwt.utils.js";
 
-
-declare global {
-  namespace Express {
-    interface Request {
-      user?: JwtPayload
-    }
-  }
-}
 
 export const authenticate = (req: Request, res: Response, next: NextFunction) => {
 
