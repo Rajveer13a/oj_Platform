@@ -68,7 +68,10 @@ model Submission {
   code      String
   language  String
   verdict   Verdict  @default(PENDING)
+  runtime   Int?
+  memory    Int?
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   problem   Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)
   user      User     @relation(fields: [userId], references: [id])
 }

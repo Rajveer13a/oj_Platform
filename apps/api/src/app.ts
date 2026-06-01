@@ -12,6 +12,8 @@ app.use(cookieParser())
 import authRouter from "./routes/auth.routes.js"
 import problemRouter from "./routes/problem.routes.js"
 import adminRouter from "./routes/admin.routes.js"
+import submissionRouter from "./routes/submission.routes.js"
+import { sendError } from "./utils/response.utils.js";
 
 app.use('/api/v1/auth',authRouter);
 
@@ -19,9 +21,13 @@ app.use('/api/v1/problems', problemRouter);
 
 app.use('/api/v1/admin', adminRouter);
 
+app.use("/api/v1/submissions", submissionRouter)
+
 app.get("/health", (req: Request, res: Response)=>{
     res.json({status: "ok"})
 });
+
+app.all("*any", (req: Request, res: Response) => sendError(res, "invalid path", 404) );
 
 app.use(errorHandler);
 

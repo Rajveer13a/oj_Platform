@@ -8,7 +8,10 @@ const envSchema = z.object({
     NODE_ENV : z.enum(["development", "production", "test"]).default("development"),
     PORT: z.string().default("4000"),
     DATABASE_URL: z.string().min(1, "databse url is required"),
-    JWT_SECRET: z.string().min(1,"jwt secret is required")
+    JWT_SECRET: z.string().min(1,"jwt secret is required"),
+    REDIS_HOST: z.string().default("localhost"),
+    REDIS_PORT: z.string().transform( val => parseInt(val || "6379")),
+    REDIS_PASSWORD: z.string().optional()
 })
 
 const parsed = envSchema.safeParse(process.env);
