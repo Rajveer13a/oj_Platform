@@ -34,6 +34,7 @@ const createSubmisson = async (req: Request, res: Response) => {
         timeLimit: problem.timeLimit,
         memoryLimit: problem.memoryLimit,
         testCases: problem.testCases.map(tc => ({
+            id: tc.id,
             input: tc.input,
             expectedOutput: tc.expectedOutput
         }))

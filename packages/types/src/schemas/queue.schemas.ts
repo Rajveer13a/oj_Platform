@@ -7,6 +7,7 @@ export const jobPayloadSchema = z.object({
     timeLimit: z.number(),
     memoryLimit: z.number(),
     testCases: z.array(z.object({
+        id: z.string().uuid(),
         input: z.string(),
         expectedOutput: z.string()
     }))
