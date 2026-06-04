@@ -27,6 +27,11 @@ enum Verdict {
   CE
 }
 
+enum Language {
+  javascript
+  python
+}
+
 model User {
   id         String       @id @default(uuid())
   email      String       @unique
@@ -50,6 +55,18 @@ model Problem {
   updatedAt   DateTime     @updatedAt
   testCases   TestCase[]
   submission  Submission[]
+  boilerplates Boilerplate[]
+}
+
+model Boilerplate {
+  id          String   @id @default(uuid())
+  problemId   String
+  language    Language
+  starterCode String
+  driverCode  String
+  problem     Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)
+
+  @@unique([problemId, language])
 }
 
 model TestCase {
@@ -66,7 +83,7 @@ model Submission {
   problemId String
   userId    String
   code      String
-  language  String
+  language  Language
   verdict   Verdict  @default(PENDING)
   runtime   Int?
   memory    Int?

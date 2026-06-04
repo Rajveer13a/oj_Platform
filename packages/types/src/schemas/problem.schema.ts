@@ -8,6 +8,11 @@ export const createProblemSchema = z.object({
     memoryLimit: z.number().min(64).max(512).default(256)
 });
 
+export const createBoilerplateSchema = z.object({
+    language: z.enum(["javascript", "python"]),
+    starterCode: z.string().min(1),
+    driverCode: z.string().min(1)
+})
 
 const testCaseSchema = z.object({
     input: z.string(),
@@ -19,5 +24,6 @@ export const createTestCasesSchema = z.object({
     testCases: z.array(testCaseSchema).min(1,"at least on test is required")
 })
 
+export type createBoilerPlateInput = z.infer<typeof createBoilerplateSchema>;
 export type createProblemInput = z.infer<typeof createProblemSchema>;
 export type createTestCasesInput = z.infer<typeof createTestCasesSchema>;

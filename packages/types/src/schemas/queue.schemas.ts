@@ -2,6 +2,7 @@ import z from "zod";
 
 export const jobPayloadSchema = z.object({
     submissionId : z.string().uuid(),
+    problemId : z.string().uuid(),
     language: z.enum(["javascript", "python"]),
     code: z.string(),
     timeLimit: z.number(),

@@ -1,7 +1,7 @@
 import { prisma } from "@oj/db"
 import type { Request, Response } from "express"
 import { sendError, sendResponse } from "../utils/response.utils.js";
-import type { createProblemInput, createTestCasesInput, idParamInput, paginationInput, slugParamInput } from "@oj/types";
+import type { createBoilerPlateInput, createProblemInput, createTestCasesInput, idParamInput, paginationInput, slugParamInput } from "@oj/types";
 
 const getProblems = async (req: Request, res: Response) => {
 
@@ -121,10 +121,26 @@ const publishProblem = async (req: Request, res: Response) => {
     sendResponse(res,"problem published succesfully", problem);
 }
 
+const addBoilerplate = async (req: Request, res: Response) => {
+
+    const {id} = req.parsedParams as idParamInput;
+
+    const { language, driverCode, starterCode} = req.body as createBoilerPlateInput;
+
+    const boilerplate = await prisma.boilerplate.upsert({
+      where: { problemId_language: { problemId: id, language } },
+      update: { starterCode, driverCode },
+      create: { problemId: id, language, starterCode, driverCode },
+    });
+
+    sendResponse(res, "boilerplate added successfully", boilerplate);
+}
+
 export {
     getProblems,
     getProblem,
     createProblem,
     addTestCases,
-    publishProblem
+    publishProblem,
+    addBoilerplate
 }

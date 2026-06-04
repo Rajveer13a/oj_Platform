@@ -29,6 +29,7 @@ const createSubmisson = async (req: Request, res: Response) => {
 
     const payload : jobPayloadInput = {
         submissionId: submission.id,
+        problemId,
         code: code,
         language: language,
         timeLimit: problem.timeLimit,

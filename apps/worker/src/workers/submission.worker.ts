@@ -8,9 +8,19 @@ import { redis } from "../config/redis.js";
 
 const processJob = async (job: Job<jobPayloadInput>) => {
   
-  const { submissionId, language, code, memoryLimit, timeLimit, testCases } =
-    job.data;
+  const { submissionId, problemId, language, code, memoryLimit, timeLimit, testCases } = job.data;
 
+  const boilerplate = await prisma.boilerplate.findUnique({
+    where: {
+      problemId_language: {
+        problemId,
+        language
+      }
+    }
+  });
+
+  const fullCode = boilerplate ? boilerplate.driverCode.replace("{user_code}", code) : code ;
+  
   console.log(`processing submission ${submissionId}`);
 
   const langConfig = LANGUAGE_LIMITS[language as supportedLanguage];
@@ -21,7 +31,7 @@ const processJob = async (job: Job<jobPayloadInput>) => {
   for (const testCase of testCases) {
 
     const result = await runInSandbox(
-      code,
+      fullCode,
       testCase.input,
       language,
       langConfig.image,
