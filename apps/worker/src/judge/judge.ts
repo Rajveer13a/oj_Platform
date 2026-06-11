@@ -30,9 +30,8 @@ export const judgeOutput = (
   let verdict: Verdict;
 
   if (result.exitCode !== 0) {
-
-    const isCompiledError = result.stderr.toLowerCase().includes("error:");
-    verdict = isCompiledError ? "CE" : "RE";
+    
+    verdict = "RE";
 
   } else {
 

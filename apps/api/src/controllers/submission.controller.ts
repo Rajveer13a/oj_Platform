@@ -37,7 +37,9 @@ const createSubmisson = async (req: Request, res: Response) => {
         testCases: problem.testCases.map(tc => ({
             id: tc.id,
             input: tc.input,
-            expectedOutput: tc.expectedOutput
+            expectedOutput: tc.expectedOutput,
+            displayInput: tc.displayInput!,
+            displayOutput: tc.displayOutput!
         }))
     };
 
@@ -60,6 +62,9 @@ const getSubmission = async (req: Request, res: Response) => {
             runtime: true,
             memory: true,
             code: true,
+            errorMessage:true,
+            failedTestCase:true,
+            totalTestCases:true,
             createdAt: true,
         }
     });

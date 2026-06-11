@@ -10,7 +10,9 @@ export const jobPayloadSchema = z.object({
     testCases: z.array(z.object({
         id: z.string().uuid(),
         input: z.string(),
-        expectedOutput: z.string()
+        expectedOutput: z.string(),
+        displayInput: z.string(),
+        displayOutput: z.string()
     }))
 
 });

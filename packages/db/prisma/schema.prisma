@@ -32,6 +32,12 @@ enum Language {
   python
 }
 
+enum Difficulty {
+  easy
+  medium
+  hard
+}
+
 model User {
   id         String       @id @default(uuid())
   email      String       @unique
@@ -50,6 +56,7 @@ model Problem {
   timeLimit   Int          @default(2)
   memoryLimit Int          @default(256)
   description String
+  difficulty  Difficulty?   
   isPublised  Boolean      @default(false)
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
@@ -74,6 +81,8 @@ model TestCase {
   input          String
   expectedOutput String
   problemId      String
+  displayInput   String?
+  displayOutput  String?
   isSample       Boolean @default(false)
   problem        Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
 }
@@ -87,6 +96,9 @@ model Submission {
   verdict   Verdict  @default(PENDING)
   runtime   Int?
   memory    Int?
+  errorMessage String?
+  failedTestCase Int?
+  totalTestCases Int?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   problem   Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)

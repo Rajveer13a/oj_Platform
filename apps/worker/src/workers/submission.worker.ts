@@ -27,8 +27,13 @@ const processJob = async (job: Job<jobPayloadInput>) => {
 
   let finalVerdict: Verdict = "AC";
   let totalRuntime: number = 0;
+  let errorMessage:    string | null = null;
+  let failedTestCase:  number | null = null;
+  let testCaseNumber:  number = 0;
 
   for (const testCase of testCases) {
+
+    testCaseNumber++;
 
     const result = await runInSandbox(
       fullCode,
@@ -52,6 +57,29 @@ const processJob = async (job: Job<jobPayloadInput>) => {
 
     if (judged.verdict != "AC") {
       finalVerdict = judged.verdict;
+      failedTestCase = testCaseNumber;
+
+      if (judged.verdict == "CE" || judged.verdict == "RE") {
+        errorMessage = result.stderr || null;
+      }
+
+      const displayInput = testCase.displayInput || testCase.input;
+
+      if (judged.verdict == "WA") {
+       errorMessage = [
+         `Test Case ${testCaseNumber} of ${testCases.length}`,
+         ``,
+         `Input:`,
+         `${displayInput.trim()}`,
+         ``,
+         `Your Output:`,
+         `${result.stdout.trim() || "(empty)"}`,
+         ``,
+         `Expected Output:`,
+         `${testCase.expectedOutput.trim()}`,
+       ].join("\n");
+      }
+
       break;
     }
 
@@ -62,6 +90,9 @@ const processJob = async (job: Job<jobPayloadInput>) => {
     data: {
       verdict: finalVerdict,
       runtime: totalRuntime,
+      errorMessage,
+      failedTestCase,
+      totalTestCases: testCases.length
     },
   });
 

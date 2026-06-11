@@ -5,7 +5,8 @@ export const createProblemSchema = z.object({
     title: z.string().min(3),
     description: z.string().min(6),
     timeLimit: z.number().min(1).max(10).default(2),
-    memoryLimit: z.number().min(64).max(512).default(256)
+    memoryLimit: z.number().min(64).max(512).default(256),
+    difficulty: z.enum(["easy", "medium", "hard"])
 });
 
 export const createBoilerplateSchema = z.object({
@@ -17,6 +18,8 @@ export const createBoilerplateSchema = z.object({
 const testCaseSchema = z.object({
     input: z.string(),
     expectedOutput: z.string(),
+    displayInput: z.string(),
+    displayOutput: z.string(),
     isSample: z.boolean().default(false)
 });
 

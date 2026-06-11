@@ -17,10 +17,20 @@ const getProblems = async (req: Request, res: Response) => {
           title: true,
           timeLimit: true,
           memoryLimit: true,
+          difficulty: true,
+          _count: {
+            select: {
+                submission: true
+            }
+          },
+          submission: {
+            where: { verdict: "AC" },
+            select: { id: true }
+          }
         },
         skip,
         take: limit,
-        orderBy: { createdAt: "desc" },
+        orderBy: { createdAt: "asc" },
       }),
 
       prisma.problem.count({
@@ -29,9 +39,21 @@ const getProblems = async (req: Request, res: Response) => {
 
     ]); 
 
+    const problemsWithRate = problems.map((p) => ({
+      id: p.id,
+      slug: p.slug,
+      title: p.title,
+      difficulty: p.difficulty,
+      timeLimit: p.timeLimit,
+      memoryLimit: p.memoryLimit,
+      acceptanceRate:
+        p._count.submission === 0
+          ? 0
+          : Math.round((p.submission.length / p._count.submission) * 100),
+    }));
 
     const responseDate = {
-        problems,
+        problems : problemsWithRate,
         pagination: {
             total,
             page,
@@ -54,7 +76,8 @@ const getProblem = async (req: Request, res: Response) => {
         include: {
             testCases: {
                 where: { isSample: true }
-            }
+            },
+            boilerplates: true
         }
     });
 
@@ -68,7 +91,7 @@ const getProblem = async (req: Request, res: Response) => {
 
 const createProblem = async (req: Request, res: Response) => {
 
-    const { slug, title, description, memoryLimit, timeLimit } = req.body as createProblemInput;
+    const { slug, title, description, memoryLimit, timeLimit, difficulty } = req.body as createProblemInput;
 
     const existing = await prisma.problem.findUnique({
         where: {slug}
@@ -79,7 +102,7 @@ const createProblem = async (req: Request, res: Response) => {
     };
 
     const problem = await prisma.problem.create({
-        data:{ slug, title, description, memoryLimit, timeLimit }
+        data:{ slug, title, description, memoryLimit, timeLimit, difficulty }
     });
 
     sendResponse(res, "problem created succesfully", problem, 201);
@@ -101,6 +124,8 @@ const addTestCases = async (req: Request, res: Response) => {
         problemId: id,
         input: tc.input,
         expectedOutput: tc.expectedOutput,
+        displayInput: tc.displayInput,
+        displayOutput: tc.displayOutput,
         isSample: tc.isSample,
       })),
     });
