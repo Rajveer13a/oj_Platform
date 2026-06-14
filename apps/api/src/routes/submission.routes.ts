@@ -8,7 +8,7 @@ import { tryCatch } from "../utils/tryCatch.utils.js";
 
 const router = Router();
 
-router.use(authenticate);
+router.use(authenticate());
 
 router.post("/", validate(createSubmissionSchema), tryCatch(createSubmisson));
 

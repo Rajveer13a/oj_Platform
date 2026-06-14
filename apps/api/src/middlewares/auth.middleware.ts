@@ -3,12 +3,16 @@ import { sendError } from "../utils/response.utils.js";
 import { verifyToken } from "../utils/jwt.utils.js";
 
 
-export const authenticate = (req: Request, res: Response, next: NextFunction) => {
+export const authenticate = (isOnlyVerifiedAllowed: boolean = true) => (req: Request, res: Response, next: NextFunction) => {
 
     try {
         const { accessToken } = req.cookies;
         
         const payload = verifyToken(accessToken);
+
+        if(isOnlyVerifiedAllowed && !payload.isVerified ){
+            return sendError(res, "unverified user account", 400);
+        }
 
         req.user = payload;
 

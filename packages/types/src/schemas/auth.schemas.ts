@@ -14,3 +14,8 @@ export const loginSchema = signupSchema.pick({
 })
 
 export type loginInput = z.infer<typeof loginSchema>;
+
+export const emailVerifySchema = z.object({
+    verificationToken : z.jwt({message: "Invalid JWT string format"})
+})
+export type emailVerifyInput = z.infer<typeof emailVerifySchema>;

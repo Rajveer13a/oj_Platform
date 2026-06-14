@@ -5,7 +5,13 @@ import cookieParser from "cookie-parser";
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: [
+    env.FRONTEND_URL
+  ],
+  credentials: true,
+}));
+
 app.use(json());
 app.use(cookieParser())
 
@@ -14,6 +20,7 @@ import problemRouter from "./routes/problem.routes.js"
 import adminRouter from "./routes/admin.routes.js"
 import submissionRouter from "./routes/submission.routes.js"
 import { sendError } from "./utils/response.utils.js";
+import { env } from "./config/env.js";
 
 app.use('/api/v1/auth',authRouter);
 
