@@ -6,6 +6,7 @@ import { Button } from "./ui/button"
 import { Info, MoveRight } from "lucide-react"
 import { Spinner } from "./ui/spinner"
 import { useAuthStore } from "@/store/auth.store"
+import axios from "axios"
 
 export default function VerifyBanner() {
 
@@ -21,7 +22,11 @@ export default function VerifyBanner() {
 
       toast.success("verification email send succesfully")
     } catch (error) {
-      toast.error(error?.response?.data?.message || "something went wrong ")
+
+      if(axios.isAxiosError(error)){
+        toast.error(error?.response?.data?.message || "something went wrong ")
+      }
+      
     }
 
     setResending(false)

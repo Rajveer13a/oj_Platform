@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import apiClient from "@/lib/apiClient";
+import { Problem } from "@/lib/types";
 
 const DEFAULT_CODE: Record<string, string> = {
   python:     "# Write your solution here\n",
@@ -8,7 +9,7 @@ const DEFAULT_CODE: Record<string, string> = {
   java:       "// Write your solution here\n",
 };
 
-export const useProblemEditor = (problemData) => {
+export const useProblemEditor = (problemData: Problem | null) => {
 
   const [language,     setLanguage]     = useState("javascript");
   const [code,         setCode]         = useState("");
@@ -21,7 +22,7 @@ export const useProblemEditor = (problemData) => {
   const setBoilerplateCode = () =>{
     const boilerplate = problemData?.boilerplates.find( (val)=> val.language === language );
     
-    setCode(boilerplate?.starterCode);
+    setCode(boilerplate?.starterCode || "");
   }
 
   const handleLanguageChange = (lang: string) => {
@@ -42,7 +43,7 @@ export const useProblemEditor = (problemData) => {
 
     try {
       const res = await apiClient.post("/submissions", {
-        problemId : problemData.id,
+        problemId : problemData?.id,
         language,
         code,
       });

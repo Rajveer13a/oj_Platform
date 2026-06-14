@@ -22,7 +22,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 export default function ProblemPage() {
   const { slug } = useParams()
 
-  const { problemData } = useProblem(slug)
+  const { problemData } = useProblem(slug as string)
 
   const {
     language,
@@ -123,7 +123,7 @@ export default function ProblemPage() {
             <ResizablePanel defaultSize="25%">
               <div className="h-full px-6 pt-2">
 
-                <Submission testCases={problemData?.testCases} submission={submission} isPolling={isPolling} />
+                <Submission testCases={problemData?.testCases || []} submission={submission} isPolling={isPolling} />
                 
               </div>
             </ResizablePanel>

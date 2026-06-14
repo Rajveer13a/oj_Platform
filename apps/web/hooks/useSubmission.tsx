@@ -1,14 +1,8 @@
 "use client"
 import { useState, useEffect, useRef } from "react";
 import apiClient from "@/lib/apiClient";
+import { type Submission } from "@/lib/types";
 
-interface Submission {
-  id:        string;
-  verdict:   string;
-  runtime:   number | null;
-  memory:    number | null;
-  createdAt: string;
-}
 
 export const useSubmission = (submissionId: string | null) => {
   const [submission, setSubmission] = useState<Submission | null>(null);

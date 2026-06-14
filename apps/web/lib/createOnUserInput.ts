@@ -1,9 +1,9 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent, Dispatch, SetStateAction } from "react";
 
-export const  createOnUserInput = (setState) =>  (e: ChangeEvent<HTMLInputElement>) => {
+export const  createOnUserInput = (setState:  Dispatch<SetStateAction<any>>) =>  (e: ChangeEvent<HTMLInputElement>) => {
 
         const {name , value} = e.target;
 
-        setState( (prev) => ({...prev, [name]: value}) );
+        setState( (prev: any) => ({...prev, [name]: value}) );
 
     }

@@ -2,8 +2,9 @@ import apiClient from "@/lib/apiClient";
 import { createOnUserInput } from "@/lib/createOnUserInput";
 import { useAuthStore } from "@/store/auth.store";
 import { signupSchema } from "@oj/types";
+import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { SubmitEvent, useState } from "react";
 import { toast } from "sonner";
 
 export default function useSignup(){
@@ -23,7 +24,7 @@ export default function useSignup(){
 
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async(e: SubmitEvent<HTMLFormElement>) => {
 
         e.preventDefault();
 
@@ -31,10 +32,10 @@ export default function useSignup(){
             ...userInput
         });
 
-        if(!result.success){ 
-            const err = JSON.parse(result.error)[0];             
-            toast.info(`${err.path[0]}: ${err.code}`)
-            return;
+        if (!result.success) {
+          const err = result.error.issues[0]
+          toast.info(`${String(err.path[0])}: ${err.message}`)
+          return
         }
 
         if(userInput.password !== userInput.confirmPassword){
@@ -50,7 +51,9 @@ export default function useSignup(){
             router.push("/")
             
         } catch (error) {
-            toast.info(JSON.stringify(error.response?.data?.message));
+            if (axios.isAxiosError(error)) {
+              toast.info(JSON.stringify(error.response?.data?.message))
+            }
         }finally{
             setIsLoading(false);
         }

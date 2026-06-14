@@ -1,9 +1,9 @@
 "use client"
 
-import { Spinner } from "../ui/spinner"
+import { Submission } from "@/lib/types"
 import VerdictBadge from "./VerdictBadge"
 
-export default function SubmissionStatus({ submission, isPolling }) {
+export default function SubmissionStatus({ submission }: { submission: Submission | null }) {
   if (!submission) return null
 
   return (

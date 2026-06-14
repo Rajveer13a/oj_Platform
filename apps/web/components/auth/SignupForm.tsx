@@ -9,12 +9,12 @@ import {
   FieldSeparator,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import { ChangeEvent } from "react"
+import { ChangeEvent, SubmitEvent } from "react"
 
 
 interface SignupFormProps extends React.ComponentProps<"div"> {
   onUserInput: (e: ChangeEvent<HTMLInputElement>) => void;
-  onSignup: (e) => Promise<void>;
+  onSignup: (e: SubmitEvent<HTMLFormElement>) => Promise<void>;
 }
 
 export function SignupForm({

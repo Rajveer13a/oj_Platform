@@ -9,11 +9,11 @@ import {
   FieldSeparator,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import { ChangeEvent } from "react"
+import { ChangeEvent, SubmitEvent } from "react"
 
 interface LoginFormProps extends React.ComponentProps<"div"> {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  onLogin: (e) => Promise<void>;
+  onLogin: (e: SubmitEvent<HTMLFormElement>) => Promise<void>;
 }
 
 export default function LoginForm({

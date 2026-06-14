@@ -1,5 +1,6 @@
 import apiClient from "@/lib/apiClient";
 import { useAuthStore } from "@/store/auth.store";
+import axios from "axios";
 import { useEffect } from "react";
 
 export default function useUserDetails(){
@@ -17,7 +18,9 @@ export default function useUserDetails(){
             setAuth(data.data);
 
         } catch (error) {
-            console.log(error?.response?.data)
+            if (axios.isAxiosError(error)) {
+              console.log(error?.response?.data)
+            }
         }
     }
 

@@ -5,6 +5,8 @@ import { useAuthStore } from "@/store/auth.store"
 import { useParams, useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import useUserDetails from "./useUserDetails"
+import { apiResponse } from "@/lib/types"
+import axios from "axios"
 
 export function useVerify() {
 
@@ -17,7 +19,7 @@ const { token }: {token: string} = useParams();
 
   const router = useRouter()
 
-  const [resData, setResData] = useState()
+  const [resData, setResData] = useState<apiResponse | null>(null);
 
   const { getUserDetails } = useUserDetails();
 
@@ -34,7 +36,9 @@ const { token }: {token: string} = useParams();
       await getUserDetails();
 
     } catch (error) {
-        setResData(error.response?.data);
+        if(axios.isAxiosError(error)){
+          setResData(error.response?.data);
+        }
         
     }
     
