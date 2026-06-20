@@ -10,7 +10,7 @@ on:
       - 'package.json'
       - 'package-lock.json'
       - 'tsconfig.base.json'
-      - '.github/workflows/deploy-worker.yml'
+      - '.github/workflows/deploy_worker.yml'
 
 jobs:
   deploy:
@@ -25,6 +25,6 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd ~/rceEngine
+            cd ~/brainyalgo
             chmod +x infra/scripts/deploy_worker.sh
             ./infra/scripts/deploy_worker.sh

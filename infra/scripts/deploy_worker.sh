@@ -2,7 +2,7 @@
 
 set -e
 
-cd ~/rceEngine
+cd ~/brainyalgo
 
 git fetch origin
 git reset --hard origin/main

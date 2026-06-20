@@ -43,6 +43,6 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd ~/rceEngine
+            cd ~/brainyalgo
             chmod +x infra/scripts/deploy_api.sh
             ./infra/scripts/deploy_api.sh
