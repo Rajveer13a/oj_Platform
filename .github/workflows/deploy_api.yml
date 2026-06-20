@@ -44,5 +44,5 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd ~/rceEngine
-            chmod +x infra/scripts/deploy_worker.sh
-            ./infra/scripts/deploy_worker.sh
+            chmod +x infra/scripts/deploy_api.sh
+            ./infra/scripts/deploy_api.sh
