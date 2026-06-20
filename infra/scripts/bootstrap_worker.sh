@@ -19,17 +19,14 @@ sudo docker pull python:3.12-slim
 sudo npm install -g pm2
 
 
-git clone https://github.com/Rajveer13a/oj_Platform.git ~/brainyalgo
-
-cd ~/brainyalgo
-
-npm ci
-
-cp ./apps/worker/.env.example ./apps/worker/.env
-
-npx prisma generate --schema=packages/db/prisma/schema.prisma
-
-pm2 start apps/worker/ecosystem.config.cjs
-
-pm2 save
-pm2 startup systemd -u ubuntu --hp /home/ubuntu
+echo ""
+echo "Bootstrap complete."
+echo "Logout and login again."
+echo ""
+echo "Then run:"
+echo "cd ~/brainyalgo"
+echo "npm ci"
+echo "npx prisma generate --schema=packages/db/prisma/schema.prisma"
+echo "pm2 start apps/worker/ecosystem.config.cjs"
+echo "pm2 save"
+echo "pm2 startup systemd -u ubuntu --hp /home/ubuntu"
