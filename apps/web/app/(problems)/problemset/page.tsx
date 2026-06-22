@@ -1,7 +1,8 @@
 "use client"
 
+import ProblemPagination from "@/components/ProblemPagination";
 import SkeletonTable from "@/components/SkeletonTable";
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import {
     Table,
     TableBody,
@@ -16,33 +17,12 @@ import { useRouter } from "next/navigation";
 
 
 
-const problemList = [
-    {
-        title: "two sum problem",
-        difficulty: "easy",
-        acceptance: "98",
-
-    },
-    {
-        title: "Maximum Total Subarray Value 1",
-        difficulty: "medium",
-        acceptance: "90"
-    },
-    {
-        title: "hard prblem",
-        difficulty: "hard",
-        acceptance: "90"
-    }
-]
-
-
-
 export default function ProblemSetPage() {
 
     const router = useRouter();
 
 
-    const { problemList } = useProblemSet();
+    const { problemList, paginationData, setPage } = useProblemSet();
     console.log(problemList)
     return (
       <div className="flex items-center justify-center p-14">
@@ -84,6 +64,10 @@ export default function ProblemSetPage() {
               <TableFooter></TableFooter>
             </Table>
           </CardContent>
+
+          <CardFooter>
+            <ProblemPagination paginationData={paginationData} setPage={setPage}/>
+          </CardFooter>
         </Card>
       </div>
     )

@@ -45,3 +45,12 @@ export interface Submission {
   failedTestCase: number
   totalTestCases: number
 }
+
+export interface pagination {
+    total: number;
+    limit: number;
+    page: number;
+    totalPages: number;
+    hasNext: boolean;
+    hasPrev: boolean
+}
