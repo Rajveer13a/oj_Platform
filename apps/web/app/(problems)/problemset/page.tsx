@@ -1,5 +1,6 @@
 "use client"
 
+import SkeletonTable from "@/components/SkeletonTable";
 import { Card, CardContent } from "@/components/ui/card"
 import {
     Table,
@@ -57,6 +58,8 @@ export default function ProblemSetPage() {
               </TableHeader>
 
               <TableBody>
+                { problemList.length == 0 && <SkeletonTable /> }
+
                 {problemList.map((prob) => (
                   <TableRow
                     onClick={() => router.push(`/problem/${prob.slug}`)}
@@ -71,7 +74,9 @@ export default function ProblemSetPage() {
                       {prob.difficulty}
                     </TableCell>
 
-                    <TableCell className="text-xs text-slate-200">{prob.acceptanceRate}%</TableCell>
+                    <TableCell className="text-xs text-slate-200">
+                      {prob.acceptanceRate}%
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

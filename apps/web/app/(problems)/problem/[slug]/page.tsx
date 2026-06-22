@@ -18,6 +18,7 @@ import { useSubmission } from "@/hooks/useSubmission"
 import { BookText, CloudUpload } from "lucide-react"
 import { Spinner } from "@/components/ui/spinner"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import SkeletonProblemTab from "@/components/SkeletonProblemTab"
 
 export default function ProblemPage() {
   const { slug } = useParams()
@@ -64,13 +65,23 @@ export default function ProblemPage() {
             <TabsContent className="h-full" value="description">
               <Card className="h-full">
                 <CardContent className="h-full space-y-4 p-6">
-                  <h1 className="text-2xl font-bold">{problemData?.title}</h1>
+                  {problemData ? (
+                    <>
+                      <h1 className="text-2xl font-bold">
+                        {problemData?.title}
+                      </h1>
 
-                  <Badge variant="secondary">
-                    {problemData?.difficulty || "easy"}
-                  </Badge>
+                      <Badge variant="secondary">
+                        {problemData?.difficulty || "easy"}
+                      </Badge>
 
-                  <pre className="text-wrap">{problemData?.description}</pre>
+                      <pre className="text-wrap">
+                        {problemData?.description}
+                      </pre>
+                    </>
+                  ) : (
+                    <SkeletonProblemTab />
+                  )}
                 </CardContent>
               </Card>
             </TabsContent>
